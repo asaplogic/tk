@@ -1,3 +1,8 @@
+import matplotlib
+matplotlib.use("TkAgg")
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.figure import Figure
+
 import Tkinter as tk
 import ttk
 
@@ -20,7 +25,7 @@ class SeaofBTCapp(tk.Tk):
         self.frames = {}
 
         #add new page here
-        for F in (StartPage, Page_one,Page_two):
+        for F in (StartPage, Page_one,Page_two,Page_three):
 
             frame = F(container, self)
 
@@ -53,8 +58,12 @@ class StartPage(tk.Frame):
                 command =lambda:controller.show_frame(Page_two))
         button2.pack()
 
+        button3 = ttk.Button(self, text ="Graph",
+                command =lambda:controller.show_frame(Page_three))
+        button3.pack()
 
 
+#home page
 class Page_one(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -68,7 +77,12 @@ class Page_one(tk.Frame):
         button2 = ttk.Button(self, text ="Visit Page 2",
                 command =lambda:controller.show_frame(Page_two))
         button2.pack()
-#copy and paste for new pageç 
+
+        button3 = ttk.Button(self, text ="Graph",
+                command =lambda:controller.show_frame(Page_three))
+        button3.pack()
+
+#copy and paste for new page
 class Page_two(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -82,6 +96,29 @@ class Page_two(tk.Frame):
         button2 = ttk.Button(self, text ="Visit Page 1",
                 command =lambda:controller.show_frame(Page_one))
         button2.pack()
+
+        button3 = ttk.Button(self, text ="Graph",
+                command =lambda:controller.show_frame(Page_three))
+        button3.pack()
+#graph page
+class Page_three(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = ttk.Label(self, text ="Graph Page", font = LARGE_FONT)
+        label.pack(pady=80,padx=80)
+
+        button1 = ttk.Button(self, text ="Lets Go Home!",
+                command =lambda:controller.show_frame(StartPage))
+        button1.pack()
+
+
+        f = Figure(figsize=(5,5), dpi=100)
+        a = f.add_subplot(111)
+        a.plot([1,2,3,7,5,6,7,8]),([5,4,6,3,2,6,7,3])
+
+        canvas = FigureCanvasTkAgg(f, self)
+        canvas.show()
+        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand = True)
 
 
 
